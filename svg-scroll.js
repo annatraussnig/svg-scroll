@@ -2,6 +2,27 @@ function SvgScroll(selector) {
     this.element = document.querySelector(selector);
 }
 
+SvgScroll.prototype.setDashOffset = function(value, direction) {
+    var pathLength = this.element.getTotalLength();
+    var drawLength = pathLength * value;
+    this.element.style.strokeDashoffset = pathLength - (direction * drawLength);
+}
+
+SvgScroll.prototype.hide = function() {
+    var pathLength = this.element.getTotalLength();
+    this.element.style.strokeDasharray = pathLength + ' ' + pathLength;
+    this.element.style.strokeDashoffset = pathLength;
+    this.element.getBoundingClientRect();
+}
+
+SvgScroll.prototype.reveal = function(percentage) {
+    this.setDashOffset(percentage, 1);
+}
+
+SvgScroll.prototype.revealReverse = function(percentage) {
+    this.setDashOffset(percentage, -1);
+}
+
 function hexToRgb(hex) {
     var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return [parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16)]
@@ -28,43 +49,6 @@ function getColorMix(blend, colors) {
     return rgbToHex(newRgb);
 }
 
-SvgScroll.prototype.setDashOffset = function(value, direction) {
-    var pathLength = this.element.getTotalLength();
-    var drawLength = pathLength * value;
-    this.element.style.strokeDashoffset = pathLength - (direction * drawLength);
-}
-
-SvgScroll.prototype.hide = function() {
-    var pathLength = this.element.getTotalLength();
-    this.element.style.strokeDasharray = pathLength + ' ' + pathLength;
-    this.element.style.strokeDashoffset = pathLength;
-    this.element.getBoundingClientRect();
-}
-
-SvgScroll.prototype.reveal = function(percentage) {
-    this.setDashOffset(percentage, 1);
-}
-
-SvgScroll.prototype.revealReverse = function(percentage) {
-    this.setDashOffset(percentage, -1);
-}
-
-SvgScroll.prototype.setColor = function(c) {
-    this.element.style.fill = c;
-}
-
-SvgScroll.prototype.setRadius = function(r) {
-    this.element.setAttribute('r', r);
-}
-
-SvgScroll.prototype.setOpacity = function(o) {
-    this.element.setAttribute('opacity', o);
-}
-
-SvgScroll.prototype.setTop = function(t) {
-    this.element.style.top = t + 'vh';
-}
-
 function getTotalScrollFraction() {
     return (document.documentElement.scrollTop + document.body.scrollTop) / 
            (document.documentElement.scrollHeight - document.documentElement.clientHeight);
@@ -80,26 +64,42 @@ function getScrollFraction(startPoint, endPoint) {
     return Math.clip(scrollFractionWithinPoints, 0, 1);
 }
 
-function getPropertyValue(relativeScrollFraction, propertyValues, interpolationFn) {
-    return interpolationFn ? interpolationFn(relativeScrollFraction, propertyValues) :
+function getValue(relativeScrollFraction, propertyValues, isColor) {
+    return isColor ? getColorMix(relativeScrollFraction, propertyValues) :
         propertyValues[0] + relativeScrollFraction * (propertyValues[1] - propertyValues[0]);
 }
 
-// setPropertyMethod is a string, the name of the object method to use to set the property
-// default propertyValues [0, 1]
-SvgScroll.prototype.mapToScroll = function(scrollPositions, setPropertyMethod, propertyValues, interpolationFn) {
-    var propertyValues = propertyValues || [0, 1];
+SvgScroll.prototype.setProperty = function(property, value) {
+    if (typeof property === 'function') {
+        property(this.element, value);
+    } else if (property === 'reveal') {
+        this.reveal(value);
+    }  else if (property === 'revealReverse') {
+        this.revealReverse(value);
+    }
+    else if (this.element.hasAttribute(property)) {
+        this.element.setAttribute(property, value);
+    } else {
+        this.element.style[property] = value;
+    }
+}
+
+SvgScroll.prototype.mapToScroll = function(scrollPositions, property, propertyValues) {
     var relativeScrollFraction = getScrollFraction(scrollPositions[0], scrollPositions[1]);
+    var isString = typeof propertyValues[0] == 'string';
+    var isColor = (isString && propertyValues[0].substring(0, 1) === '#');
+    var numericalPropertyValues = (isColor || !isString) ? propertyValues : propertyValues.map(parseFloat);
 
     if (relativeScrollFraction > 0 && relativeScrollFraction < 1) {
-        var propertyValue = getPropertyValue(relativeScrollFraction, propertyValues, interpolationFn);
-        this[setPropertyMethod](propertyValue);
+        var value = getValue(relativeScrollFraction, numericalPropertyValues, isColor);
+        var unit = isString ? propertyValues[0].split(numericalPropertyValues[0])[1] : '';
+        this.setProperty(property, value + unit);
 
         // making sure the element reaches the boundary condition
         if (relativeScrollFraction < 0.1) {
-            this[setPropertyMethod](propertyValues[0]);
+            this.setProperty(property, propertyValues[0]);
         } else if (relativeScrollFraction > 0.9) {
-            this[setPropertyMethod](propertyValues[1]);
+            this.setProperty(property, propertyValues[1]);
         }
     }
 }

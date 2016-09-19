@@ -1,0 +1,35 @@
+body {
+    margin: 0 !important;
+    height: 4000px;
+    position: relative;
+    font-size: 100%;
+    background-color: #F2F1EF;
+}
+
+/*ANIMATION*/
+
+#animation {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #336E7B;
+    border-right: 1px solid #ECECEC;
+}
+
+svg {
+    height: 100%;
+    width: 100%;
+}
+
+#drawing-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 80%;
+    height: 40vh;
+    margin-left: -40%;
+    margin-top: -25vh;
+    overflow: hidden;
+}

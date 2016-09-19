@@ -1,7 +1,7 @@
 {
   "name": "svg-scroll",
   "version": "0.1.0",
-  "description": "svg scroll animation made simple",
+  "description": "A simple library to create scroll animations easily – no third party libraries required.",
   "main": "svg-scroll.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
