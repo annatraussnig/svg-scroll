@@ -1,0 +1,26 @@
+{
+  "name": "svg-scroll",
+  "version": "0.1.0",
+  "description": "svg scroll animation made simple",
+  "main": "svg-scroll.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/annatraussnig/svg-scroll.git"
+  },
+  "keywords": [
+    "svg",
+    "scroll",
+    "animation",
+    "graphics",
+    "browser"
+  ],
+  "author": "Anna Traussnig <anna.traussnig@gmail.com> (http://www.annatraussnig.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/annatraussnig/svg-scroll/issues"
+  },
+  "homepage": "https://github.com/annatraussnig/svg-scroll#readme"
+}

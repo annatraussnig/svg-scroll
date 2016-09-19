@@ -28,7 +28,7 @@ svg {
 #light-fitting-container, #lightbulb-container {
     position: fixed;
     top: -5vh;
-    left: 40%;
+    left: 50%;
     width: 8vh;
     height: 30vh;
     margin: 0 0 0 -4vh;
@@ -37,7 +37,7 @@ svg {
 #face-container {
     position: fixed;
     bottom: 0;
-    left: 40%;
+    left: 50%;
     height: 43vh;
     width: 50vh;
     margin: 0 0 0 -25.5vh;

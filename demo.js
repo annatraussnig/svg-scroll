@@ -1,17 +1,17 @@
 // ELEMENTS
-var lightFitting = SvgScroll('#light-fitting');
-var lightbulb = SvgScroll('#lightbulb');
-var lightbulbContainer = SvgScroll('#lightbulb-container');
-var topShadowStraight = SvgScroll('#top-shadow-straight');
-var bottomShadowStraight = SvgScroll('#bottom-shadow-straight');
-var topShadowTilted = SvgScroll('#top-shadow-tilted');
-var bottomShadowTilted = SvgScroll('#bottom-shadow-tilted');
-var face = SvgScroll('#face');
-var faceUp = SvgScroll('#face-up');
-var hair1 = SvgScroll('#hair1');
-var hair2 = SvgScroll('#hair2');
-var hair3 = SvgScroll('#hair3');
-var hair4 = SvgScroll('#hair4');
+var lightFitting = new SvgScroll('#light-fitting');
+var lightbulb = new SvgScroll('#lightbulb');
+var lightbulbContainer = new SvgScroll('#lightbulb-container');
+var topShadowStraight = new SvgScroll('#top-shadow-straight');
+var bottomShadowStraight = new SvgScroll('#bottom-shadow-straight');
+var topShadowTilted = new SvgScroll('#top-shadow-tilted');
+var bottomShadowTilted = new SvgScroll('#bottom-shadow-tilted');
+var face = new SvgScroll('#face');
+var faceUp = new SvgScroll('#face-up');
+var hair1 = new SvgScroll('#hair1');
+var hair2 = new SvgScroll('#hair2');
+var hair3 = new SvgScroll('#hair3');
+var hair4 = new SvgScroll('#hair4');
 
 
 // INITIAL STATE

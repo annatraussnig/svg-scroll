@@ -1,6 +1,5 @@
-// LIBRARIE
 function SvgScroll(selector) {
-   return new Object(document.querySelector(selector));
+    this.element = document.querySelector(selector);
 }
 
 function hexToRgb(hex) {
@@ -30,16 +29,16 @@ function getColorMix(blend, colors) {
 }
 
 SvgScroll.prototype.setDashOffset = function(value, direction) {
-    var pathLength = this.getTotalLength();
+    var pathLength = this.element.getTotalLength();
     var drawLength = pathLength * value;
-    this.style.strokeDashoffset = pathLength - (direction * drawLength);
+    this.element.style.strokeDashoffset = pathLength - (direction * drawLength);
 }
 
 SvgScroll.prototype.hide = function() {
-    var pathLength = this.getTotalLength();
-    this.style.strokeDasharray = pathLength + ' ' + pathLength;
-    this.style.strokeDashoffset = pathLength;
-    this.getBoundingClientRect();
+    var pathLength = this.element.getTotalLength();
+    this.element.style.strokeDasharray = pathLength + ' ' + pathLength;
+    this.element.style.strokeDashoffset = pathLength;
+    this.element.getBoundingClientRect();
 }
 
 SvgScroll.prototype.reveal = function(percentage) {
@@ -51,19 +50,19 @@ SvgScroll.prototype.revealReverse = function(percentage) {
 }
 
 SvgScroll.prototype.setColor = function(c) {
-    this.style.fill = c;
+    this.element.style.fill = c;
 }
 
 SvgScroll.prototype.setRadius = function(r) {
-    this.setAttribute('r', r);
+    this.element.setAttribute('r', r);
 }
 
 SvgScroll.prototype.setOpacity = function(o) {
-    this.setAttribute('opacity', o);
+    this.element.setAttribute('opacity', o);
 }
 
 SvgScroll.prototype.setTop = function(t) {
-    this.style.top = t + 'vh';
+    this.element.style.top = t + 'vh';
 }
 
 function getTotalScrollFraction() {
