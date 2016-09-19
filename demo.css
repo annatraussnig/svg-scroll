@@ -1,0 +1,44 @@
+body {
+    margin: 0 !important;
+    height: 7000px;
+    position: relative;
+    font-size: 100%;
+    background-color: #F2F1EF;
+}
+
+/*ANIMATION*/
+
+#animation {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: -webkit-linear-gradient(#336E7B, #1F282F, #679283, #d35400);
+    background: -o-linear-gradient(#336E7B, #1F282F, #679283, #d35400);
+    background: -moz-linear-gradient(#336E7B, #1F282F, #679283, #d35400);
+    background: linear-gradient(#336E7B, #1F282F, #679283, #d35400);
+    border-right: 1px solid #ECECEC;
+}
+
+svg {
+    overflow: visible;
+}
+
+#light-fitting-container, #lightbulb-container {
+    position: fixed;
+    top: -5vh;
+    left: 40%;
+    width: 8vh;
+    height: 30vh;
+    margin: 0 0 0 -4vh;
+}
+
+#face-container {
+    position: fixed;
+    bottom: 0;
+    left: 40%;
+    height: 43vh;
+    width: 50vh;
+    margin: 0 0 0 -25.5vh;
+}
