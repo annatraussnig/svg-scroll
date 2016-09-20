@@ -2,27 +2,6 @@ function SvgScroll(selector) {
     this.element = document.querySelector(selector);
 }
 
-SvgScroll.prototype.setDashOffset = function(value, direction) {
-    var pathLength = this.element.getTotalLength();
-    var drawLength = pathLength * value;
-    this.element.style.strokeDashoffset = pathLength - (direction * drawLength);
-}
-
-SvgScroll.prototype.hide = function() {
-    var pathLength = this.element.getTotalLength();
-    this.element.style.strokeDasharray = pathLength + ' ' + pathLength;
-    this.element.style.strokeDashoffset = pathLength;
-    this.element.getBoundingClientRect();
-}
-
-SvgScroll.prototype.reveal = function(percentage) {
-    this.setDashOffset(percentage, 1);
-}
-
-SvgScroll.prototype.revealReverse = function(percentage) {
-    this.setDashOffset(percentage, -1);
-}
-
 function hexToRgb(hex) {
     var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return [parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16)]
@@ -64,19 +43,30 @@ function getScrollFraction(startPoint, endPoint) {
     return Math.clip(scrollFractionWithinPoints, 0, 1);
 }
 
-function getValue(relativeScrollFraction, propertyValues, isColor) {
-    return isColor ? getColorMix(relativeScrollFraction, propertyValues) :
-        propertyValues[0] + relativeScrollFraction * (propertyValues[1] - propertyValues[0]);
+function interpolateValue(coefficient, extrema, isColor) {
+    return isColor ? getColorMix(coefficient, extrema) :
+        extrema[0] + coefficient * (extrema[1] - extrema[0]);
 }
 
-SvgScroll.prototype.setProperty = function(property, value) {
+function mapToScroll(scrollPositions, property, propertyValues, getPropertyValue, setProperty) {
+    var relativeScrollFraction = getScrollFraction(scrollPositions[0], scrollPositions[1]);
+
+    if (relativeScrollFraction > 0 && relativeScrollFraction < 1) {
+        if (relativeScrollFraction < 0.1) {
+            setProperty(propertyValues[0], property);
+        } else if (relativeScrollFraction > 0.9) {
+            setProperty(propertyValues[1], property);
+        } else {
+            var value = getPropertyValue(relativeScrollFraction, propertyValues);
+            setProperty(value, property);
+        }
+    }
+}
+
+SvgScroll.prototype.setProperty = function(value, property) {
     if (typeof property === 'function') {
         property(this.element, value);
-    } else if (property === 'reveal') {
-        this.reveal(value);
-    }  else if (property === 'revealReverse') {
-        this.revealReverse(value);
-    }
+    } 
     else if (this.element.hasAttribute(property)) {
         this.element.setAttribute(property, value);
     } else {
@@ -84,28 +74,33 @@ SvgScroll.prototype.setProperty = function(property, value) {
     }
 }
 
-SvgScroll.prototype.execOnScroll = function(scrollPositions, property, propertyValues, getPropertyValue) {
-    var relativeScrollFraction = getScrollFraction(scrollPositions[0], scrollPositions[1]);
-
-    if (relativeScrollFraction > 0 && relativeScrollFraction < 1) {
-        if (relativeScrollFraction < 0.1) {
-            this.setProperty(property, propertyValues[0]);
-        } else if (relativeScrollFraction > 0.9) {
-            this.setProperty(property, propertyValues[1]);
-        } else {
-            var value = getPropertyValue(relativeScrollFraction, propertyValues);
-            this.setProperty(property, value);
-        }
+SvgScroll.prototype.setDashOffset = function(direction) {
+    return function(value) {
+        var pathLength = this.element.getTotalLength();
+        var drawLength = pathLength * value;
+        this.element.style.strokeDashoffset = pathLength - (direction * drawLength);
     }
 }
 
-SvgScroll.prototype.mapToScroll = function(scrollPositions, property, propertyValues) {
-    this.execOnScroll(scrollPositions, property, propertyValues, function(coefficient, extrema) {
+SvgScroll.prototype.changeOnScroll = function(scrollPositions, property, propertyValues) {
+    mapToScroll(scrollPositions, property, propertyValues, function(coefficient, extrema) {
         var isString = typeof extrema[0] == 'string';
         var isColor = (isString && extrema[0].substring(0, 1) === '#');
         var numericalPropertyValues = (isColor || !isString) ? extrema : extrema.map(parseFloat);
-        var value = getValue(coefficient, numericalPropertyValues, isColor);
+        var value = interpolateValue(coefficient, numericalPropertyValues, isColor);
         var unit = isString ? extrema[0].split(numericalPropertyValues[0])[1] : '';
         return value + unit;
-    });
+    }, this.setProperty.bind(this));
+}
+
+SvgScroll.prototype.reveal = function(scrollPositions, propertyValues, isReverse) {
+    var direction = isReverse ? -1 : 1;
+    mapToScroll(scrollPositions, '', propertyValues, interpolateValue, this.setDashOffset(direction).bind(this));
+}
+
+SvgScroll.prototype.hide = function() {
+    var pathLength = this.element.getTotalLength();
+    this.element.style.strokeDasharray = pathLength + ' ' + pathLength;
+    this.element.style.strokeDashoffset = pathLength;
+    this.element.getBoundingClientRect();
 }
