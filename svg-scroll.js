@@ -84,22 +84,28 @@ SvgScroll.prototype.setProperty = function(property, value) {
     }
 }
 
-SvgScroll.prototype.mapToScroll = function(scrollPositions, property, propertyValues) {
+SvgScroll.prototype.execOnScroll = function(scrollPositions, property, propertyValues, getPropertyValue) {
     var relativeScrollFraction = getScrollFraction(scrollPositions[0], scrollPositions[1]);
-    var isString = typeof propertyValues[0] == 'string';
-    var isColor = (isString && propertyValues[0].substring(0, 1) === '#');
-    var numericalPropertyValues = (isColor || !isString) ? propertyValues : propertyValues.map(parseFloat);
 
     if (relativeScrollFraction > 0 && relativeScrollFraction < 1) {
-        var value = getValue(relativeScrollFraction, numericalPropertyValues, isColor);
-        var unit = isString ? propertyValues[0].split(numericalPropertyValues[0])[1] : '';
-        this.setProperty(property, value + unit);
-
-        // making sure the element reaches the boundary condition
         if (relativeScrollFraction < 0.1) {
             this.setProperty(property, propertyValues[0]);
         } else if (relativeScrollFraction > 0.9) {
             this.setProperty(property, propertyValues[1]);
+        } else {
+            var value = getPropertyValue(relativeScrollFraction, propertyValues);
+            this.setProperty(property, value);
         }
     }
+}
+
+SvgScroll.prototype.mapToScroll = function(scrollPositions, property, propertyValues) {
+    this.execOnScroll(scrollPositions, property, propertyValues, function(coefficient, extrema) {
+        var isString = typeof extrema[0] == 'string';
+        var isColor = (isString && extrema[0].substring(0, 1) === '#');
+        var numericalPropertyValues = (isColor || !isString) ? extrema : extrema.map(parseFloat);
+        var value = getValue(coefficient, numericalPropertyValues, isColor);
+        var unit = isString ? extrema[0].split(numericalPropertyValues[0])[1] : '';
+        return value + unit;
+    });
 }
