@@ -33,19 +33,19 @@ See this example in full action HERE.
 
 The one and only focus of svg-scroll is the `ScrollWrapper`, which return an object exposing 3 methods to streamline the creation of SVG scroll animations.
 
-##### usage
+#### usage
 
 ```javascript
 var ScrollWrapper = require('svg-scroll').ScrollWrapper;
 var wrappedElement = new ScrollWrapper('#some-css-selector');
 ```
-##### new ScrollWrapper(selector)
+#### new ScrollWrapper(selector)
 
 | Param   |      Type      |  Description |
 |----------|:-------------:|--------------|
 | selector |  String | CSS selctor string |
 
-##### Methods
+#### Methods
 
 + `changeOnScroll`
 + `hide`
@@ -53,7 +53,7 @@ var wrappedElement = new ScrollWrapper('#some-css-selector');
 
 ### changeOnScroll
 
-##### usage
+#### usage
 
 ```javascript
 wrappedElement.changeOnScroll([0.4, 0.7], 'opacity', [1, 0]);
@@ -65,7 +65,7 @@ The snippet above gradually changes the opacity of `wrappedElement` from 1 to 0 
 
 This flexible method can be used on any kind of DOM elements – notably divs containing SVG graphics (see DEMO source code for example). It also parses a few different formats of property values.
 
-##### changeOnScroll(scrollPositions, propertyName, propertyValues)
+#### changeOnScroll(scrollPositions, propertyName, propertyValues)
 
 | Param   |      Type      |  Description |
 |---------|----------------|--------------|
@@ -74,9 +74,7 @@ This flexible method can be used on any kind of DOM elements – notably divs co
 | propertyValues |  Array(2)  | [initial, final] values of the property. The values can be numbers, colors (hex), or value/unit strings (see examples below).  |
 
 **Setter functions** should take the following form: 
-`propertySetter(element, propertyValue)`
-
-For instance: 
+`propertySetter(element, propertyValue)`, for instance: 
 
 ```javascript
 function setStroke(element, color) {
@@ -99,7 +97,7 @@ wrappedElement.changeOnScroll([0, 1], 'top', ['-5vh', '3vh']);
 
 ### hide
 
-##### usage
+#### usage
 
 ```javascript
 wrappedSvgPath.hide();
@@ -113,7 +111,7 @@ Fully hides an SVG path to reveal it later. The original element has to be an SV
 
 ### reveal
 
-##### usage
+#### usage
 
 ```javascript
 wrappedElement.reveal([0, 0.8], [0, 0.5]);
@@ -125,7 +123,7 @@ The snippet above reveals the first half (from 0 to 0.5) of the path as the view
 
 The original element has to be an SVG path.
 
-##### reveal(scrollPositions, pathFractions, isReverse)
+#### reveal(scrollPositions, pathFractions, isReverse)
 
 | Param   |      Type      |  Description |
 |---------|----------------|--------------|
