@@ -1,20 +1,144 @@
-# svg-scroll
-A simple library to create scroll animations easily – no third party libraries required.
+svg-scroll
+==========
 
-## example
+A minimalist Javascript library to create scroll animations easily – no third-party libraries required. 
 
-var SvgScroll = require('svg-scroll');
+See DEMO. 
 
-var drawing = new SvgScroll('#svg-drawing');
+## Installation
 
-// hide the drawing
-document.addEventListener('DOMContentLoaded', drawing.hide, false);
+```
+npm install svg-scroll
+```
+
+## Simple Example
+
+```javascript
+var ScrollWrapper = require('svg-scroll').ScrollWrapper;
+var wrappedElement = new ScrollWrapper('#my-svg-path');
+
+document.addEventListener('DOMContentLoaded', wrappedElement.hide, false);
 
 window.addEventListener("scroll", function(e) {
-    // reveal the drawing in the first 40% of the scrolling
-    drawing.mapToScroll([0, 0.4], 'reveal', [0, 1]);
-    // change color
-    drawing.mapToScroll([0.4, 0.5], 'reveal');
-    // fade
+    wrappedElement.reveal([0, 0.8], [0, 1]);
+    wrappedElement.changeOnScroll([0.7, 0.9], 'stroke', ['#bc3c2f', '#ecd093']);
+    wrappedElement.changeOnScroll([0.9, 1], 'opacity', [1, 0]);
 });
+```
+See this example in full action HERE.
 
+## Documentation
+
+### ScrollWrapper
+
+The one and only focus of svg-scroll is the `ScrollWrapper`, which return an object exposing 3 methods to streamline the creation of SVG scroll animations.
+
+##### usage
+
+```javascript
+var ScrollWrapper = require('svg-scroll').ScrollWrapper;
+var wrappedElement = new ScrollWrapper('#some-css-selector');
+```
+##### new ScrollWrapper(selector)
+
+| Param   |      Type      |  Description |
+|----------|:-------------:|--------------|
+| selector |  String | CSS selctor string |
+
+##### Methods
+
++ `changeOnScroll`
++ `hide`
++ `reveal` 
+
+### changeOnScroll
+
+##### usage
+
+```javascript
+wrappedElement.changeOnScroll([0.4, 0.7], 'opacity', [1, 0]);
+```
+
+Where `wrappedElement` is a `ScrollWrapper` object. 
+
+The snippet above gradually changes the opacity of `wrappedElement` from 1 to 0 as the viewer scrolls from 40% to 70% of the total page length.
+
+This flexible method can be used on any kind of DOM elements – notably divs containing SVG graphics (see DEMO source code for example). It also parses a few different formats of property values.
+
+##### changeOnScroll(scrollPositions, propertyName, propertyValues)
+
+| Param   |      Type      |  Description |
+|---------|----------------|--------------|
+| scrollPositions |  Array(2) | [inital, final] boundaries of the change, as fraction of the total page length.| 
+| propertyName |  String  Function  | Name of the style property or element attribute to change - or a setter function (see below).|
+| propertyValues |  Array(2)  | [initial, final] values of the property. The values can be numbers, colors (hex), or value/unit strings (see examples below).  |
+
+**Setter functions** should take the following form: 
+`propertySetter(element, propertyValue)`
+
+For instance: 
+
+```javascript
+function setStroke(element, color) {
+element.style.stroke = color;
+}
+
+wrappedElement.changeOnScroll([0.7, 0.9], setStroke, ['#bc3c2f', '#ecd093']);
+```
+
+**Supported value formats**:
+
+```javascript
+// numbers
+wrappedElement.changeOnScroll([0, 1], 'opacity', [1, 0]);
+// (hex) colors
+wrappedElement.changeOnScroll([0, 1], 'fill', ['#F89406', '#000000']);
+// value/unit strings
+wrappedElement.changeOnScroll([0, 1], 'top', ['-5vh', '3vh']);
+```
+
+### hide
+
+##### usage
+
+```javascript
+wrappedSvgPath.hide();
+```
+
+Where `wrappedElement` is a `ScrollWrapper` object. 
+
+Fully hides an SVG path to reveal it later. The original element has to be an SVG path.
+
+*No arguments.*
+
+### reveal
+
+##### usage
+
+```javascript
+wrappedElement.reveal([0, 0.8], [0, 0.5]);
+```
+
+Where `wrappedElement` is a `ScrollWrapper` object.
+
+The snippet above reveals the first half (from 0 to 0.5) of the path as the viewer scrolls from 40% to 70% of the total page length.
+
+The original element has to be an SVG path.
+
+##### reveal(scrollPositions, pathFractions, isReverse)
+
+| Param   |      Type      |  Description |
+|---------|----------------|--------------|
+| scrollPositions |  Array(2) | [inital, final] boundaries of the reveal, as fraction of the total page length.| 
+| pathFractions |  Array(2)  | [initial, final] visible fractions of the path.  |
+| isReverse | Bool  | *Optional.* Reverses the direction of the path. Useful when the reveal goes the wrong way. |
+
+Note on **pathFractions**: it is totally possible to have an initial  bigger than the final pathFraction. This will produce a gradual concealement of the path:
+
+```javascript
+wrappedElement.reveal([0.5, 1], [1, 0], false);
+```
+
+## License
+
+MIT Licensed. Copyright (c) Anna Traussnig 2016.

@@ -1,4 +1,4 @@
-function SvgScroll(selector) {
+function ScrollWrapper(selector) {
     this.element = document.querySelector(selector);
 }
 
@@ -48,22 +48,22 @@ function interpolateValue(coefficient, extrema, isColor) {
         extrema[0] + coefficient * (extrema[1] - extrema[0]);
 }
 
-function mapToScroll(scrollPositions, property, propertyValues, getPropertyValue, setProperty) {
+function mapToScroll(scrollPositions, propertyValues, getPropertyValue, setProperty, propertyName) {
     var relativeScrollFraction = getScrollFraction(scrollPositions[0], scrollPositions[1]);
 
     if (relativeScrollFraction > 0 && relativeScrollFraction < 1) {
         if (relativeScrollFraction < 0.1) {
-            setProperty(propertyValues[0], property);
+            setProperty(propertyValues[0], propertyName);
         } else if (relativeScrollFraction > 0.9) {
-            setProperty(propertyValues[1], property);
+            setProperty(propertyValues[1], propertyName);
         } else {
             var value = getPropertyValue(relativeScrollFraction, propertyValues);
-            setProperty(value, property);
+            setProperty(value, propertyName);
         }
     }
 }
 
-SvgScroll.prototype.setProperty = function(value, property) {
+ScrollWrapper.prototype.setProperty = function(value, property) {
     if (typeof property === 'function') {
         property(this.element, value);
     } 
@@ -74,7 +74,7 @@ SvgScroll.prototype.setProperty = function(value, property) {
     }
 }
 
-SvgScroll.prototype.setDashOffset = function(direction) {
+ScrollWrapper.prototype.setDashOffset = function(direction) {
     return function(value) {
         var pathLength = this.element.getTotalLength();
         var drawLength = pathLength * value;
@@ -82,23 +82,23 @@ SvgScroll.prototype.setDashOffset = function(direction) {
     }
 }
 
-SvgScroll.prototype.changeOnScroll = function(scrollPositions, property, propertyValues) {
-    mapToScroll(scrollPositions, property, propertyValues, function(coefficient, extrema) {
+ScrollWrapper.prototype.changeOnScroll = function(scrollPositions, propertyName, propertyValues) {
+    mapToScroll(scrollPositions, propertyValues, function(coefficient, extrema) {
         var isString = typeof extrema[0] == 'string';
         var isColor = (isString && extrema[0].substring(0, 1) === '#');
         var numericalPropertyValues = (isColor || !isString) ? extrema : extrema.map(parseFloat);
         var value = interpolateValue(coefficient, numericalPropertyValues, isColor);
         var unit = isString ? extrema[0].split(numericalPropertyValues[0])[1] : '';
-        return value + unit;
-    }, this.setProperty.bind(this));
+        return String(value).concat(unit);
+    }, this.setProperty.bind(this), propertyName);
 }
 
-SvgScroll.prototype.reveal = function(scrollPositions, propertyValues, isReverse) {
+ScrollWrapper.prototype.reveal = function(scrollPositions, propertyValues, isReverse) {
     var direction = isReverse ? -1 : 1;
-    mapToScroll(scrollPositions, '', propertyValues, interpolateValue, this.setDashOffset(direction).bind(this));
+    mapToScroll(scrollPositions, propertyValues, interpolateValue, this.setDashOffset(direction).bind(this));
 }
 
-SvgScroll.prototype.hide = function() {
+ScrollWrapper.prototype.hide = function() {
     var pathLength = this.element.getTotalLength();
     this.element.style.strokeDasharray = pathLength + ' ' + pathLength;
     this.element.style.strokeDashoffset = pathLength;
