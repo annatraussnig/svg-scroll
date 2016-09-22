@@ -16,8 +16,7 @@ npm install svg-scroll
 ## Simple Example
 
 ```javascript
-var ScrollWrapper = require('svg-scroll').ScrollWrapper;
-var wrappedElement = new ScrollWrapper('#my-svg-path');
+var wrappedElement = new svgScroll.ScrollWrapper('#my-svg-path');
 
 document.addEventListener('DOMContentLoaded', wrappedElement.hide, false);
 
@@ -38,7 +37,7 @@ The one and only focus of svg-scroll is the `ScrollWrapper`, which return an obj
 #### usage
 
 ```javascript
-var ScrollWrapper = require('svg-scroll').ScrollWrapper;
+var ScrollWrapper = svgScroll.ScrollWrapper;
 var wrappedElement = new ScrollWrapper('#some-css-selector');
 ```
 #### new ScrollWrapper(selector)

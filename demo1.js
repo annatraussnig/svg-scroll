@@ -1,5 +1,5 @@
 // ELEMENTS
-var wrappedElement = new ScrollWrapper('#drawing');
+var wrappedElement = new svgScroll.ScrollWrapper('#drawing');
 
 // INITIAL STATE
 document.addEventListener('DOMContentLoaded', function(){ 

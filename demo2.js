@@ -1,3 +1,5 @@
+var ScrollWrapper = svgScroll.ScrollWrapper;
+
 // ELEMENTS
 var lightFitting = new ScrollWrapper('#light-fitting');
 var lightbulb = new ScrollWrapper('#lightbulb');
