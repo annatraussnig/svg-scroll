@@ -32,7 +32,7 @@ See this example in full action HERE.
 
 ### ScrollWrapper
 
-The one and only focus of svg-scroll is the `ScrollWrapper`, which return an object exposing 3 methods to streamline the creation of SVG scroll animations.
+The one and only focus of svg-scroll is the `ScrollWrapper`, which return an object exposing 4 methods to streamline the creation of SVG scroll animations.
 
 #### usage
 
@@ -51,6 +51,7 @@ var wrappedElement = new ScrollWrapper('#some-css-selector');
 + `changeOnScroll`
 + `hide`
 + `reveal` 
++ `toggleClass`
 
 ### changeOnScroll
 
@@ -137,6 +138,27 @@ Note on **pathFractions**: it is totally possible to have an initial  bigger tha
 ```javascript
 wrappedElement.reveal([0.5, 1], [1, 0], false);
 ```
+
+### toggleClass
+
+#### usage
+
+```javascript
+wrappedElement.toggleClass([0.5, 0.8], 'highlighted');
+```
+
+Where `wrappedElement` is a `ScrollWrapper` object.
+
+The snippet above adds the class `highlighted` to the element when the viewer is scrolling from 50% to 80% of the total page length. The class is absent otherwise.
+
+This method will also work on non-SVG elements.
+
+#### toggled(scrollPositions, className)
+
+| Param   |      Type      |  Description |
+|---------|----------------|--------------|
+| scrollPositions |  Array(2) | [inital, final] boundaries of the reveal, as fraction of the total page length.| 
+| className | String  | Name of the class to toggle. |
 
 ## License
 
