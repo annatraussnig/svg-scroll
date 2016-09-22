@@ -1,9 +1,11 @@
 svg-scroll
 ==========
 
-A minimalist Javascript library to create scroll animations easily – no third-party libraries required. 
+**A minimalist Javascript library to create scroll animations easily – no third-party dependencies.**
 
-See DEMO. 
+The current use case is the animation of fixed (CSS: `position: fixed`) SVG graphics over a long page (1000+ px of height). The amount of scrolling is used to determine the current state of the animation and make it flow.
+
+If you can't quite visualize it yet, why not go see the DEMO? 
 
 ## Installation
 
