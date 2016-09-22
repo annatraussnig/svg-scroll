@@ -116,6 +116,16 @@
         this.element.getBoundingClientRect();
     }
 
+    ScrollWrapper.prototype.toggleClass = function(scrollPositions, className) {
+        var scrollFraction = getScrollFraction(scrollPositions[0], scrollPositions[1]);
+
+        if (scrollFraction > 0 && scrollFraction < 1) {
+            this.element.classList.add(className);
+        } else {
+            this.element.classList.remove(className);
+        }
+    }
+
     return {
         'ScrollWrapper': ScrollWrapper 
     };

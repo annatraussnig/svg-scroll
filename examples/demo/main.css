@@ -13,12 +13,17 @@ body {
     top: 0;
     bottom: 0;
     left: 0;
-    width: 100%;
+    width: 60%;
     background: -webkit-linear-gradient(#336E7B, #1F282F, #679283, #d35400);
     background: -o-linear-gradient(#336E7B, #1F282F, #679283, #d35400);
     background: -moz-linear-gradient(#336E7B, #1F282F, #679283, #d35400);
     background: linear-gradient(#336E7B, #1F282F, #679283, #d35400);
     border-right: 1px solid #ECECEC;
+}
+
+h1 {
+    text-align: center;
+    color: #b3c9bf;
 }
 
 svg {
@@ -28,7 +33,7 @@ svg {
 #light-fitting-container, #lightbulb-container {
     position: fixed;
     top: -5vh;
-    left: 50%;
+    left: 30%;
     width: 8vh;
     height: 30vh;
     margin: 0 0 0 -4vh;
@@ -37,8 +42,51 @@ svg {
 #face-container {
     position: fixed;
     bottom: 0;
-    left: 50%;
+    left: 30%;
     height: 43vh;
     width: 50vh;
     margin: 0 0 0 -25.5vh;
+}
+
+/* TEXT */
+#copy {
+    background-color: #F2F1EF;
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    left: 60%;
+    right: 0;
+    height: 100vh;
+    margin: 0;
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
+
+#copy code {
+    position: absolute;
+    height: 512px;
+    top: 50%;
+    margin-top: -256px;
+    margin-left: -60px;
+    color: #b3c9bf;
+    font-size: 0.9em;
+    line-height: 1.4;
+}
+
+#copy span {
+    -webkit-transition: all 0.5s;
+    transition: all 0.5s;
+}
+
+#copy span.highlighted {
+    color: #d35400;
+    font-weight: 700;
+}
+
+@media only screen and (max-width: 960px) {
+    #copy { display: none; }
+    #animation { width: 100%; }
+    #light-fitting-container, #lightbulb-container, #face-container {
+        left: 50%;
+    }
 }
