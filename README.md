@@ -5,7 +5,7 @@ svg-scroll
 
 The current use case is the animation of fixed (CSS: `position: fixed`) SVG graphics over a long page (1000+ px of height). The amount of scrolling is used to determine the current state of the animation and make it flow.
 
-If you can't quite visualize it yet, why not go see the DEMO? 
+If you can't quite visualize it yet, why not go see the [DEMO](https://annatraussnig.github.io/svg-scroll/demo/)? 
 
 ## Installation
 
@@ -26,7 +26,7 @@ window.addEventListener("scroll", function(e) {
     wrappedElement.changeOnScroll([0.9, 1], 'opacity', [1, 0]);
 });
 ```
-See this example in full action HERE.
+See this example in full action [HERE](https://annatraussnig.github.io/svg-scroll/simple/).
 
 ## Documentation
 
