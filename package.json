@@ -1,6 +1,6 @@
 {
   "name": "svg-scroll",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A minimalist library to create scroll animations easily – no third-party libraries required.",
   "main": "svg-scroll.js",
   "scripts": {
