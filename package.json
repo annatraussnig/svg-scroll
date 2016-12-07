@@ -22,5 +22,13 @@
   "bugs": {
     "url": "https://github.com/annatraussnig/svg-scroll/issues"
   },
-  "homepage": "https://github.com/annatraussnig/svg-scroll#readme"
+  "homepage": "https://github.com/annatraussnig/svg-scroll#readme",
+  "directories": {
+    "doc": "docs"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^2.0.0"
+  }
 }
