@@ -1,6 +1,6 @@
 body {
     margin: 0 !important;
-    height: 7000px;
+    height: 2000px;
     position: relative;
     font-size: 100%;
     background-color: #F2F1EF;
@@ -14,16 +14,18 @@ body {
     bottom: 0;
     left: 0;
     width: 60%;
-    background: -webkit-linear-gradient(#336E7B, #1F282F, #679283, #d35400);
-    background: -o-linear-gradient(#336E7B, #1F282F, #679283, #d35400);
-    background: -moz-linear-gradient(#336E7B, #1F282F, #679283, #d35400);
-    background: linear-gradient(#336E7B, #1F282F, #679283, #d35400);
+    background: -webkit-linear-gradient(#382348, #260d3a, #3587a7, #f2f1ef);
+    background: -o-linear-gradient(#382348, #260d3a, #3587a7, #f2f1ef);
+    background: -moz-linear-gradient(#382348, #260d3a, #3587a7, #f2f1ef);
+    background: linear-gradient(#382348, #260d3a, #3587a7, #f2f1ef);
     border-right: 1px solid #ECECEC;
 }
 
 h1 {
-    text-align: center;
+    text-align: left;
     color: #b3c9bf;
+    font-family: monospace;
+    padding: 20vh 30px 5vh;
 }
 
 svg {
@@ -34,18 +36,9 @@ svg {
     position: fixed;
     top: -5vh;
     left: 30%;
-    width: 8vh;
+    width: 10vh;
     height: 30vh;
-    margin: 0 0 0 -4vh;
-}
-
-#face-container {
-    position: fixed;
-    bottom: 0;
-    left: 30%;
-    height: 43vh;
-    width: 50vh;
-    margin: 0 0 0 -25.5vh;
+    margin: 0 0 0 -5vh;
 }
 
 /* TEXT */
@@ -62,15 +55,14 @@ svg {
     overflow-y: hidden;
 }
 
+#copy pre {
+    margin-left: -35px;
+}
+
 #copy code {
-    position: absolute;
-    height: 512px;
-    top: 50%;
-    margin-top: -256px;
-    margin-left: -60px;
     color: #b3c9bf;
     font-size: 0.9em;
-    line-height: 1.4;
+    line-height: 1.8em;
 }
 
 #copy span {
@@ -79,14 +71,14 @@ svg {
 }
 
 #copy span.highlighted {
-    color: #d35400;
+    color: #260d3a;
     font-weight: 700;
 }
 
 @media only screen and (max-width: 960px) {
     #copy { display: none; }
     #animation { width: 100%; }
-    #light-fitting-container, #lightbulb-container, #face-container {
+    #light-fitting-container, #lightbulb-container {
         left: 50%;
     }
 }
